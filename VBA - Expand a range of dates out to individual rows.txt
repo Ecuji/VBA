@@ -1,0 +1,52 @@
+/*################################################
+//              EXPAND DATE RANGES              //
+//                                              //
+################################################*/
+/*
+	Author: Joe4 (24 JANUARY 2017)
+	Ammended: Steven Duffy
+	Date:	 12 MARCH 2020
+	Info:	Expand out a range of dates into individual rows containing each date
+	Comments: Thursday morning, early start. Got hospital visits today
+	Weather: Coldy and icy morning, beginning to clear with sunny spells 
+	Temp: 02°C at 07:00AM
+*/
+
+Sub MyExpandMacro()
+
+    Dim myLastRow As Long
+    Dim myRow As Long
+    Dim startDate As Date
+    Dim endDate As Date
+    Dim DOCID As String
+    Dim myDate As Date
+    Dim counter As Long
+    
+    Application.ScreenUpdating = False
+    
+'   Find last row in column A with data
+    myLastRow = Cells(Rows.Count, "A").End(xlUp).Row
+    
+'   Loop through all rows in column A starting with row 2
+    counter = 2
+    For myRow = 2 To myLastRow
+'       Capture name and start and end dates
+        DOCID = Cells(myRow, "A")
+        startDate = Cells(myRow, "B")
+        endDate = Cells(myRow, "C")
+'       Check to see if start and end dates populated and end is after start
+        If (startDate > 0) And (endDate >= startDate) Then
+'           Loop through all dates
+            For myDate = startDate To endDate
+                Cells(counter, "D") = DOCID
+                Cells(counter, "E") = myDate
+                Cells(counter, "F") = startDate
+                Cells(counter, "G") = endDate
+                counter = counter + 1
+            Next myDate
+        End If
+    Next myRow
+    
+    Application.ScreenUpdating = True
+    
+End Sub
